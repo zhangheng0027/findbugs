@@ -12,8 +12,8 @@ public @interface BugPatternFindbugs {
     String type();
     String abbrev();
     String category();
-    boolean experimental();
+    boolean experimental() default false;
     int cweid() default 0;
-    boolean deprecated();
+    boolean deprecated() default false;
 
 }

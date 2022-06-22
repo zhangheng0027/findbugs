@@ -59,6 +59,7 @@ import javax.annotation.Nullable;
 import javax.annotation.WillClose;
 
 import edu.umd.cs.findbugs.annotation.BugPatternFindbugs;
+import edu.umd.cs.findbugs.annotation.BugPatternFindbugsHandle;
 import edu.umd.cs.findbugs.annotation.DetectorFindbugs;
 import edu.umd.cs.findbugs.annotation.DetectorFindbugsHandle;
 import edu.umd.cs.findbugs.annotation.model.DetectorModel;
@@ -996,6 +997,7 @@ public class PluginLoader implements AutoCloseable {
 
         // Create BugPatterns
         List<Object> bugPatternNodeList = XMLUtil.selectNodes(pluginDescriptor, "/FindbugsPlugin/BugPattern");
+        bugPatternNodeList.addAll(BugPatternFindbugsHandle.get());
         for (Object bugPatternNode1 : bugPatternNodeList) {
             String type, abbrev, category;
             boolean experimental, deprecated;
@@ -1064,7 +1066,7 @@ public class PluginLoader implements AutoCloseable {
         Set<String> definedBugCodes = new HashSet<>();
         for (Document messageCollection : messageCollectionList) {
             List<Node> bugCodeNodeList = XMLUtil.selectNodes(messageCollection, "/MessageCollection/BugCode");
-            for (Node bugCodeNode : bugCodeNodeList) {
+            for (Node bugCodeNode1 : bugCodeNodeList) {
                 String abbrev = bugCodeNode.valueOf("@abbrev");
                 if ("".equals(abbrev)) {
                     throw new PluginException("BugCode element with missing abbrev attribute");
